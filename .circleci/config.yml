@@ -1,11 +1,15 @@
 version: 2.1
 jobs:
   build:
+    context:
+      - docker-hub-creds
+
     docker:
       - image: cimg/base:stable
         auth:
-          username: ecarlste
-          password: $DOCKERHUB_PASSWORD
+          username: $DOCKER_LOGIN
+          password: $DOCKER_PASSWORD
+
     steps:
       - checkout
 
@@ -14,9 +18,8 @@ jobs:
           docker_layer_caching: true
 
       - run: |
-          echo "DOCKERHUB_PASSWORD=$DOCKERHUB_PASSWORD"
-          echo "DOCKER_PASS=$DOCKER_PASS"
-          echo "DOCKER_USER=$DOCKER_USER"
+          echo "DOCKER_PASSWORD=$DOCKER_PASSWORD"
+          echo "DOCKER_LOGIN=$DOCKER_LOGIN"
 
       - run: |
           TAG=0.1.$CIRCLE_BUILD_NUM
@@ -24,7 +27,7 @@ jobs:
           cd express-hello-world
 
           docker build -t ecarlste/express-hello-world:$TAG .
-          echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+          echo $DOCKER_PASSWORD | docker login -u $DOCKER_LOGIN --password-stdin
           docker push ecarlste/express-hello-world:$TAG
 
           cd ..
