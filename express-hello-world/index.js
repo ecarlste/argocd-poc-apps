@@ -1,11 +1,10 @@
-const { Environment } = require("./environment.js");
 const express = require("express");
 const server = express();
 
-server.get("/", (request, response) => {
+server.get("/", (_request, response) => {
   response.send("Hello World!");
 });
 
-server.listen(Environment.port || 3000, () => {
+server.listen(3000, () => {
   console.log(`Server UP!`);
 });
