@@ -1,4 +1,4 @@
-export const Environment = {
+const Environment = {
   port: process.env.HTTP_LISTEN_PORT,
 };
 
