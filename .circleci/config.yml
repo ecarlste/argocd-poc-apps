@@ -1,9 +1,14 @@
 version: 2.1
-jobs:
-  build:
-    context:
-      - docker-hub-creds
 
+workflows:
+  continuous-delivery:
+    jobs:
+      - build-and-push-to-dockerhub:
+          context:
+            - docker-hub-creds
+
+jobs:
+  build-and-push-to-dockerhub:
     docker:
       - image: cimg/base:stable
         auth:
